@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>项目详情</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="project-info">
+            <h1>{{ project[4] }}</h1>
+            <p>项目描述：{{ project[5] }}</p>
+            <p>项目链接：<a href="{{ project[6] }}" target="_blank">{{ project[6] }}</a></p>
+            <p>最新数据：</p>
+            <ul>
+                <li>Star数：{{ project[9] }}</li>
+                <li>Fork数：{{ project[10] }}</li>
+                <li>Watch数：{{ project[11] }}</li>
+            </ul>
+        </div>
+        
+        <div class="charts">
+            <canvas id="combinedChart"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        const projectHistory = JSON.parse('{{ history|safe }}');
+        
+        // 绘制图表的代码
+        function createCombinedChart(elementId) {
+            const ctx = document.getElementById(elementId);
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: projectHistory.map(h => h[0]),
+                    datasets: [
+                        {
+                            label: 'Stars',
+                            data: projectHistory.map(h => h[1]),
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Forks',
+                            data: projectHistory.map(h => h[2]),
+                            borderColor: 'rgb(192, 75, 192)',
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Watchers',
+                            data: projectHistory.map(h => h[3]),
+                            borderColor: 'rgb(192, 192, 75)',
+                            tension: 0.1
+                        }
+                    ]
+                }
+            });
+        }
+        
+        createCombinedChart('combinedChart');
+    </script>
+</body>
+</html> 

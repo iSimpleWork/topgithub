@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数据库管理</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>数据库管理</h1>
+        <a href="/" class="back-link">返回首页</a>
+        
+        <h2>数据表列表</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>表名</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for table in tables %}
+                <tr>
+                    <td>{{ table[0] }}</td>
+                    <td>
+                        <a href="{{ url_for('table_structure', table_name=table[0]) }}">查看结构</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> 
